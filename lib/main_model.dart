@@ -4,7 +4,7 @@ class MainModel extends ChangeNotifier{
   String mashText = 'mashproject';
 
   void changeMashText(){
-    mashText = 'mash716tanaka';
+    mashText = 'mash716';
     notifyListeners();
   }
 }
