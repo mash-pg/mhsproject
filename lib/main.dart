@@ -1,20 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:mhsproject/main_model.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo AAAAABBBBb',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'mhs-mash-716',
+      //home: MyHomePage(title: 'mhs-mash'),
+      home: ChangeNotifierProvider<MainModel>(
+        create: (_) => MainModel(),
+        child: Scaffold(
+          appBar: AppBar(
+            title:Text('mash-mash'),
+          ),
+          body: Consumer<MainModel>(builder: (context, model,child) {
+              return Center(
+                child: Column(
+                  children: [
+                    Text(
+                      model.mashText,
+                       style: TextStyle(
+                         fontSize: 30,
+                    ),
+                    ),
+                    RaisedButton(
+                      child: Text('botan'),
+                      onPressed:(){
+                        //ここで何かをする
+                        model.changeMashText();
+                      },
+                    )
+                  ],
+                ),
+              );
+            }
+          )
+        ),
+      )
     );
   }
 }
@@ -40,8 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
@@ -50,21 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+ // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
