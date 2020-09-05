@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'mhs-mash-716',
+      title: 'mhs-mash-716test',
       //home: MyHomePage(title: 'mhs-mash'),
       home: ChangeNotifierProvider<MainModel>(
         create: (_) => MainModel(),
