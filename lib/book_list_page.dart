@@ -2,37 +2,33 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mhsproject/book_list_model.dart';
+import 'package:provider/provider.dart';
 
-
-class BookList extends StatelessWidget{
+class BookListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Firebase.initializeApp();
     CollectionReference books = FirebaseFirestore.instance.collection('books');
-    return Scaffold(
-      appBar: AppBar(
-        title:Text('本一覧'),
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: books.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
-          if (snapshot.hasError) {
-            return Text('Something went wrong');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
-          }
-
-          return new ListView(
-            children: snapshot.data.docs.map((DocumentSnapshot document) {
-              return ListTile(
-                title: Text(document.data()['title']),
-              );
-            }).toList(),
-          );
-        },
+    return ChangeNotifierProvider<BookListModel>(
+      create: (_) => BookListModel()..fetchBooks(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('本一覧'),
+        ),
+        body: Consumer<BookListModel>(
+          builder: (context, model, child) {
+            final books = model.books;
+            final listTiles = books
+                .map(
+                  (book) => ListTile(
+                    title: Text(book.title),
+                  ),
+                )
+                .toList();
+            return ListView(children: listTiles);
+          },
+        ),
       ),
     );
   }
